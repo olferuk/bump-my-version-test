@@ -25,8 +25,8 @@ jobs:
     - name: 👀 Check Version
       run: |
         TARGET_BRANCH=${{ github.event.pull_request.base.ref }}
-        TARGET_VERSION=$(git show "${TARGET_BRANCH}:pyproject.toml" | grep -oP '(?<=current_version = ")[^"]*')
-        FEATURE_VERSION=$(cat pyproject.toml | grep -oP '(?<=current_version = ")[^"]*')
+        TARGET_VERSION=$(git show "origin/${TARGET_BRANCH}:pyproject.toml" | sed -n 's/current_version = "\([^"]*\)"/\1/p')
+        FEATURE_VERSION=$(cat pyproject.toml | sed -n 's/current_version = "\([^"]*\)"/\1/p')
 
         if [ "$TARGET_VERSION" == "$FEATURE_VERSION" ]; then
           echo "Error: Versions in pyproject.toml are the same in the target branch and the feature branch."
