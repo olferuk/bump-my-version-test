@@ -34,7 +34,7 @@ jobs:
         FEATURE_VERSION=$(cat pyproject.toml | sed -n 's/current_version = "\([^"]*\)"/\1/p')
         echo "This branch version: $FEATURE_VERSION"
 
-        TARGET_VERSION=$(echo "${{ steps.pyproject.outputs.content }}" | sed -n 's/current_version = "\([^"]*\)"/\1/p')
+        TARGET_VERSION=$(printf "%s" "${{ steps.pyproject.outputs.content }}" | sed -n 's/current_version = "\([^"]*\)"/\1/p')
         echo "Target version: $TARGET_VERSION"
 
         if [ "$TARGET_VERSION" == "$FEATURE_VERSION" ]; then
