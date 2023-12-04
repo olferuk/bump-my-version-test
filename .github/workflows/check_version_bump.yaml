@@ -22,14 +22,20 @@ jobs:
       run: |
         pip install -r requirements.txt
 
+    - name: 📖 Read pyproject.toml
+      id: pyproject
+      uses: jaywcjlove/github-action-read-file@main
+      with:
+        branch: ${{ github.event.pull_request.base.ref }}
+        path: pyproject.toml
+
     - name: 👀 Check Version
       run: |
-        TARGET_BRANCH=${{ github.event.pull_request.base.ref }}
-        TARGET_VERSION=$(git show "origin/${TARGET_BRANCH}:pyproject.toml" | sed -n 's/current_version = "\([^"]*\)"/\1/p')
         FEATURE_VERSION=$(cat pyproject.toml | sed -n 's/current_version = "\([^"]*\)"/\1/p')
-
-        echo "Target version: $TARGET_VERSION"
         echo "This branch version: $FEATURE_VERSION"
+
+        TARGET_VERSION=$(echo "${{ steps.pyproject.outputs.content }}" | sed -n 's/current_version = "\([^"]*\)"/\1/p')
+        echo "Target version: $TARGET_VERSION"
 
         if [ "$TARGET_VERSION" == "$FEATURE_VERSION" ]; then
           echo "Error: Versions in pyproject.toml are the same in the target branch and the feature branch."
