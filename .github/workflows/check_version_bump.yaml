@@ -34,10 +34,8 @@ jobs:
         FEATURE_VERSION=$(cat pyproject.toml | sed -n 's/current_version = "\([^"]*\)"/\1/p')
         echo "This branch version: $FEATURE_VERSION"
 
-        "${{ steps.pyproject.outputs.content }}" > _temp.toml
-        TARGET_VERSION=$(cat _temp.toml | sed -n 's/current_version = "\([^"]*\)"/\1/p')
+        TARGET_VERSION=$(echo '${{ steps.pyproject.outputs.content }}' | sed -n 's/current_version = "\([^"]*\)"/\1/p')
         echo "Target version: $TARGET_VERSION"
-        rm _temp.toml
 
         if [ "$TARGET_VERSION" == "$FEATURE_VERSION" ]; then
           echo "Error: Versions in pyproject.toml are the same in the target branch and the feature branch."
