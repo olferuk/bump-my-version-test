@@ -24,7 +24,8 @@ jobs:
 
     - name: 👀 Check Version
       run: |
-        TARGET_VERSION=$(git show origin/${{ github.base_ref }}:pyproject.toml | grep -oP '(?<=current_version = ")[^"]*')
+        TARGET_BRANCH=${{ github.event.pull_request.base.ref }}
+        TARGET_VERSION=$(git show "${TARGET_BRANCH}:pyproject.toml" | grep -oP '(?<=current_version = ")[^"]*')
         FEATURE_VERSION=$(cat pyproject.toml | grep -oP '(?<=current_version = ")[^"]*')
 
         if [ "$TARGET_VERSION" == "$FEATURE_VERSION" ]; then
