@@ -39,6 +39,6 @@ jobs:
 
         if [ "$TARGET_VERSION" == "$FEATURE_VERSION" ]; then
           echo "Error: Versions in pyproject.toml are the same in the target branch and the feature branch."
-          echo "Please bump the version via `make bump_<component>` before merging."
+          echo "Please bump the version via 'make bump_<component>' before merging."
           exit 1
         fi
