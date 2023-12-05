@@ -29,4 +29,4 @@ jobs:
 
         # Create tag
         git tag "${VERSION}" "${GITHUB_SHA}"
-        git push origin "${VERSION}"        
+        git push origin "${VERSION}"
