@@ -23,10 +23,10 @@ jobs:
       run: |
         VERSION=$(sed -n 's/current_version = "\([^"]*\)"/\1/p' pyproject.toml)
         echo "Creating tag ${VERSION}.."
-        
+
         # Check if tag already exists
         git tag -l | grep "${VERSION}" && echo "❌ Tag ${VERSION} already exists" && exit 1
-        
+
         # Create tag
         git tag "${VERSION}" "${GITHUB_SHA}"
         git push origin "${VERSION}"        
