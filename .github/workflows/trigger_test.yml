@@ -3,9 +3,9 @@ name: Manual Trigger or Scheduled Metrics
 on:
   # Manual trigger
   workflow_dispatch:
-  schedule:
-    # Trigger every day at 2:00 AM UTC
-    - cron: '*/5 * * * *'
+  # schedule:
+  #   # Trigger every day at 2:00 AM UTC
+  #   - cron: '*/5 * * * *'
 
 concurrency:
   group: metrics-${{ github.ref }}
