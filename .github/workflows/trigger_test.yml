@@ -24,4 +24,4 @@ jobs:
       - name: 🖨️ Printing to console
         run: |
           echo "Hello world!"
-          echo "Running on ${{ github.event.inputs.branch || dev }}"
+          echo "Running on ${{ github.event.inputs.branch || 'dev' }}"
