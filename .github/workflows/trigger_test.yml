@@ -6,7 +6,8 @@ on:
     inputs:
       branch:
         description: 'Target branch'
-        required: true
+        required: false
+        default: dev
 
   # Trigger every day at 2:00 AM UTC
   schedule:
