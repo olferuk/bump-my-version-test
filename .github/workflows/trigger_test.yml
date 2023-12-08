@@ -3,8 +3,13 @@ name: Manual Trigger or Scheduled Metrics
 on:
   # Manual trigger
   workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Target branch'
+        required: true
+
+  # Trigger every day at 2:00 AM UTC
   schedule:
-    # Trigger every day at 2:00 AM UTC
     - cron: '*/5 * * * *'
 
 concurrency:
@@ -18,3 +23,4 @@ jobs:
       - name: 🖨️ Printing to console
         run: |
           echo "Hello world!"
+          echo "Running on ${{ github.event.inputs.branch }}"
