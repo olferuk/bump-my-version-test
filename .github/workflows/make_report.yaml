@@ -1,9 +1,9 @@
-name: Create and upload artifact
+name: Creating Report
 
 on: push
 
 jobs:
-  build:
+  create_report:
     runs-on: ubuntu-latest
 
     steps:

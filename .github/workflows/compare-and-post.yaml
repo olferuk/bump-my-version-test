@@ -7,7 +7,7 @@ on:
 
 jobs:
   compare-and-comment:
-    needs: [make_report]
+    needs: [create_report]
     runs-on: ubuntu-latest
     steps:
       - name: 📃 Checkout repository
