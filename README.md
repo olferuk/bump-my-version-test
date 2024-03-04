@@ -19,4 +19,3 @@ make bump_minor
 ```bash
 make bump_patch
 ```
-
