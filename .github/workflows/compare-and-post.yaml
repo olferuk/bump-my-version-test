@@ -1,0 +1,47 @@
+name: Compare Artifacts and Comment
+
+on: 
+  pull_request:
+    branches: 
+      - dev
+
+jobs:
+  compare-and-comment:
+    needs: [make_report]
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📃 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: ⬇️ Download artifact from feature branch
+        uses: actions/download-artifact@v4
+        with:
+          name: metrics-report.md
+          # The path to place the downloaded artifact
+          path: ${{ github.workspace }}/feature-branch-report
+
+      - name: 📃 Checkout dev branch
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+
+      - name: ⬇️ Download artifact from dev branch
+        uses: actions/download-artifact@v4
+        with:
+          name: metrics-report.md
+          path: ${{ github.workspace }}/dev-report
+
+      - name: 🔁 Compare artifacts
+        run: |
+          diff -u ${{ github.workspace }}/dev-report/metrics-report.md ${{ github.workspace }}/feature-branch-report/metrics-report.md > diff.txt || true
+
+      - name: 💬 Post differences as comment
+        uses: mshick/add-pr-comment@v2
+        with:
+          message: |
+            ## Differences in Artifacts
+            ```diff
+            $(cat diff.txt)
+            ```

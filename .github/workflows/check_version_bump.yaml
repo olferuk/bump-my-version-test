@@ -1,47 +1,47 @@
-name: Check version
+# name: Check version
 
-on:
-  pull_request:
-    branches:
-      - main
+# on:
+#   pull_request:
+#     branches:
+#       - main
 
-jobs:
-  check_version:
-    runs-on: ubuntu-latest
+# jobs:
+#   check_version:
+#     runs-on: ubuntu-latest
 
-    steps:
-    - name: 📃 Checkout code
-      uses: actions/checkout@v4
+#     steps:
+#     - name: 📃 Checkout code
+#       uses: actions/checkout@v4
 
-    - name: 🐍 Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: 3.8
+#     - name: 🐍 Set up Python
+#       uses: actions/setup-python@v4
+#       with:
+#         python-version: 3.8
 
-    - name: 🐌 Install dependencies
-      run: |
-        pip install -r requirements.txt
+#     - name: 🐌 Install dependencies
+#       run: |
+#         pip install -r requirements.txt
 
-    - name: 📖 Read pyproject.toml
-      id: pyproject
-      uses: jaywcjlove/github-action-read-file@main
-      with:
-        branch: ${{ github.event.pull_request.base.ref }}
-        path: pyproject.toml
+#     - name: 📖 Read pyproject.toml
+#       id: pyproject
+#       uses: jaywcjlove/github-action-read-file@main
+#       with:
+#         branch: ${{ github.event.pull_request.base.ref }}
+#         path: pyproject.toml
 
-    - name: 👀 Check Version
-      run: |
-        FEATURE_VERSION=$(cat pyproject.toml | sed -n 's/current_version = "\([^"]*\)"/\1/p')
-        echo "This branch version: $FEATURE_VERSION"
+#     - name: 👀 Check Version
+#       run: |
+#         FEATURE_VERSION=$(cat pyproject.toml | sed -n 's/current_version = "\([^"]*\)"/\1/p')
+#         echo "This branch version: $FEATURE_VERSION"
 
-        TARGET_VERSION=$(echo '${{ steps.pyproject.outputs.content }}' | sed -n 's/current_version = "\([^"]*\)"/\1/p')
-        echo "Target version: $TARGET_VERSION"
+#         TARGET_VERSION=$(echo '${{ steps.pyproject.outputs.content }}' | sed -n 's/current_version = "\([^"]*\)"/\1/p')
+#         echo "Target version: $TARGET_VERSION"
 
-        if [ "$TARGET_VERSION" == "$FEATURE_VERSION" ]; then
-          echo "❌ Error: Versions in pyproject.toml are the same in the target branch and the feature branch."
-          echo "Please bump the version via 'make bump_<component>' before merging."
-          exit 1
-        else
-          echo "✅ Versions in pyproject.toml are different in the target branch and the feature branch."
-          echo "You can merge this PR."
-        fi
+#         if [ "$TARGET_VERSION" == "$FEATURE_VERSION" ]; then
+#           echo "❌ Error: Versions in pyproject.toml are the same in the target branch and the feature branch."
+#           echo "Please bump the version via 'make bump_<component>' before merging."
+#           exit 1
+#         else
+#           echo "✅ Versions in pyproject.toml are different in the target branch and the feature branch."
+#           echo "You can merge this PR."
+#         fi

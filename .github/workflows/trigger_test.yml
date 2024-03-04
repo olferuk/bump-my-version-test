@@ -1,27 +1,27 @@
-name: Manual Trigger or Scheduled Metrics
+# name: Manual Trigger or Scheduled Metrics
 
-on:
-  # Manual trigger
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Target branch'
-        required: false
-        default: dev
+# on:
+#   # Manual trigger
+#   workflow_dispatch:
+#     inputs:
+#       branch:
+#         description: 'Target branch'
+#         required: false
+#         default: dev
 
-  # Trigger every day at 2:00 AM UTC
-  schedule:
-    - cron: '*/5 * * * *'
+#   # Trigger every day at 2:00 AM UTC
+#   schedule:
+#     - cron: '*/5 * * * *'
 
-concurrency:
-  group: metrics-${{ github.ref }}
-  cancel-in-progress: true
+# concurrency:
+#   group: metrics-${{ github.ref }}
+#   cancel-in-progress: true
 
-jobs:
-  echoing:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 🖨️ Printing to console
-        run: |
-          echo "Hello world!"
-          echo "Running on ${{ github.event.inputs.branch }}"
+# jobs:
+#   echoing:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: 🖨️ Printing to console
+#         run: |
+#           echo "Hello world!"
+#           echo "Running on ${{ github.event.inputs.branch }}"
