@@ -1,10 +1,9 @@
 name: Compare Artifacts and Comment
 
-on: 
-  workflow_run:
-    workflows: ["Creating Report"]
-    types:
-      - completed
+on:
+  pull_request:
+    branches: [master, staged, dev]
+    types: [opened, reopened, synchronize]
 
 jobs:
   compare-and-comment:

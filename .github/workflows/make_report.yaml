@@ -7,17 +7,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: 📃 Checkout code
       uses: actions/checkout@v4
 
-    - name: Set branch name environment variable
+    - name: 🎋 Set branch name environment variable
       run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
 
-    - name: Create Artifact
+    - name: ✍️ Create Artifact
       run: |
         echo "1 2 3 ${{ env.BRANCH_NAME }}" > artifact.txt
 
-    - name: Upload Artifact
+    - name: ⬆️ Upload Artifact
       uses: actions/upload-artifact@v4
       with:
         name: report
