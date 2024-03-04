@@ -1,13 +1,13 @@
 name: Compare Artifacts and Comment
 
 on: 
-  pull_request:
-    branches: 
-      - dev
+  workflow_run:
+    workflows: ["Creating Report"]
+    types:
+      - completed
 
 jobs:
   compare-and-comment:
-    needs: [create_report]
     runs-on: ubuntu-latest
     steps:
       - name: 📃 Checkout repository
