@@ -10,10 +10,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Set branch name environment variable
+      run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+
     - name: Create Artifact
       run: |
-        export BRANCH=${{ github.head_ref }}
-        echo "1 2 3 $BRANCH" > artifact.txt
+        echo "1 2 3 ${{ env.BRANCH_NAME }}" > artifact.txt
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
