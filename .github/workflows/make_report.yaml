@@ -11,7 +11,9 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Create Artifact
-      run: echo "1 2 3 ${{ github.head_ref }}" > artifact.txt
+      run: |
+        export BRANCH=${{ github.head_ref }}
+        echo "1 2 3 $BRANCH" > artifact.txt
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
