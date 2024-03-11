@@ -1,46 +1,46 @@
-name: Compare Artifacts and Comment
+# name: Compare Artifacts and Comment
 
-on:
-  pull_request:
-    branches: [master, staged, dev]
-    types: [opened, reopened, synchronize]
+# on:
+#   pull_request:
+#     branches: [master, staged, dev]
+#     types: [opened, reopened, synchronize]
 
-jobs:
-  compare-and-comment:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 📃 Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+# jobs:
+#   compare-and-comment:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: 📃 Checkout repository
+#         uses: actions/checkout@v4
+#         with:
+#           fetch-depth: 0
 
-      - name: ⬇️ Download artifact from feature branch
-        uses: actions/download-artifact@v4
-        with:
-          name: report
-          # The path to place the downloaded artifact
-          path: ${{ github.workspace }}/feature-branch-report
+#       - name: ⬇️ Download artifact from feature branch
+#         uses: actions/download-artifact@v4
+#         with:
+#           name: report
+#           # The path to place the downloaded artifact
+#           path: ${{ github.workspace }}/feature-branch-report
 
-      - name: 📃 Checkout dev branch
-        uses: actions/checkout@v4
-        with:
-          ref: dev
+#       - name: 📃 Checkout dev branch
+#         uses: actions/checkout@v4
+#         with:
+#           ref: dev
 
-      - name: ⬇️ Download artifact from dev branch
-        uses: actions/download-artifact@v4
-        with:
-          name: report
-          path: ${{ github.workspace }}/dev-report
+#       - name: ⬇️ Download artifact from dev branch
+#         uses: actions/download-artifact@v4
+#         with:
+#           name: report
+#           path: ${{ github.workspace }}/dev-report
 
-      - name: 🔁 Compare artifacts
-        run: |
-          diff -u ${{ github.workspace }}/dev-report/metric-report.md ${{ github.workspace }}/feature-branch-report/metric-report.md > diff.txt || true
+#       - name: 🔁 Compare artifacts
+#         run: |
+#           diff -u ${{ github.workspace }}/dev-report/metric-report.md ${{ github.workspace }}/feature-branch-report/metric-report.md > diff.txt || true
 
-      - name: 💬 Post differences as comment
-        uses: mshick/add-pr-comment@v2
-        with:
-          message: |
-            ## Differences in Artifacts
-            ```diff
-            $(cat diff.txt)
-            ```
+#       - name: 💬 Post differences as comment
+#         uses: mshick/add-pr-comment@v2
+#         with:
+#           message: |
+#             ## Differences in Artifacts
+#             ```diff
+#             $(cat diff.txt)
+#             ```

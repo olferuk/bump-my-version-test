@@ -13,12 +13,17 @@ jobs:
     - name: 🎋 Set branch name environment variable
       run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
 
-    - name: ✍️ Create Artifact
+    - name: ✍️ Create Report
       run: |
-        echo "1 2 3 ${{ env.BRANCH_NAME }}" > metric-report.md
+        echo "1 2 3 ${{ env.BRANCH_NAME }}" > metric-report-${{ env.BRANCH_NAME }}.md
 
-    - name: ⬆️ Upload Artifact
-      uses: actions/upload-artifact@v4
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
       with:
-        name: report
-        path: metric-report.md
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: 📦 Upload Report to S3
+      run: |
+        aws s3 cp metric-report.md ${{ secrets.AWS_S3_BUCKET }}/metric-report-${{ env.BRANCH_NAME }}.md
