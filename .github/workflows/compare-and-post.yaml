@@ -17,7 +17,7 @@ jobs:
       - name: ⬇️ Download artifact from feature branch
         uses: actions/download-artifact@v4
         with:
-          name: metric-report.md
+          name: report
           # The path to place the downloaded artifact
           path: ${{ github.workspace }}/feature-branch-report
 
@@ -29,7 +29,7 @@ jobs:
       - name: ⬇️ Download artifact from dev branch
         uses: actions/download-artifact@v4
         with:
-          name: metric-report.md
+          name: report
           path: ${{ github.workspace }}/dev-report
 
       - name: 🔁 Compare artifacts
