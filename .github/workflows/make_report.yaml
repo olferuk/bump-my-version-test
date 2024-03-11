@@ -26,4 +26,4 @@ jobs:
 
     - name: 📦 Upload Report to S3
       run: |
-        aws s3 cp metric-report.md ${{ secrets.AWS_S3_BUCKET }}/metric-report-${{ env.BRANCH_NAME }}.md
+        aws s3 cp metric-report-${{ env.BRANCH_NAME }}.md ${{ secrets.AWS_S3_BUCKET }}/metric-report-${{ env.BRANCH_NAME }}.md
