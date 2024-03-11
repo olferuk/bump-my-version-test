@@ -17,7 +17,7 @@ jobs:
       - name: ⬇️ Download artifact from feature branch
         uses: actions/download-artifact@v4
         with:
-          name: metrics-report.md
+          name: metric-report.md
           # The path to place the downloaded artifact
           path: ${{ github.workspace }}/feature-branch-report
 
@@ -29,12 +29,12 @@ jobs:
       - name: ⬇️ Download artifact from dev branch
         uses: actions/download-artifact@v4
         with:
-          name: metrics-report.md
+          name: metric-report.md
           path: ${{ github.workspace }}/dev-report
 
       - name: 🔁 Compare artifacts
         run: |
-          diff -u ${{ github.workspace }}/dev-report/metrics-report.md ${{ github.workspace }}/feature-branch-report/metrics-report.md > diff.txt || true
+          diff -u ${{ github.workspace }}/dev-report/metric-report.md ${{ github.workspace }}/feature-branch-report/metric-report.md > diff.txt || true
 
       - name: 💬 Post differences as comment
         uses: mshick/add-pr-comment@v2
