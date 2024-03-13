@@ -14,7 +14,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 🎋 Set branch name environment variable
+      - name: 🎋 Set branch name environment variable 
         run: |
           if [[ $GITHUB_REF == refs/pull/* ]]; then
             echo "BRANCH_NAME=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
