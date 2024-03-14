@@ -1,34 +1,34 @@
-name: Creating Report
+# name: Creating Report
 
-on: push
+# on: push
 
-jobs:
-  create_report:
-    runs-on: ubuntu-latest
+# jobs:
+#   create_report:
+#     runs-on: ubuntu-latest
 
-    steps:
-    - name: 📃 Checkout code
-      uses: actions/checkout@v4
+#     steps:
+#     - name: 📃 Checkout code
+#       uses: actions/checkout@v4
 
-    - name: 🎋 Set branch name environment variable
-      run: |
-        if [[ $GITHUB_REF == refs/pull/* ]]; then
-          echo "BRANCH_NAME=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
-        else
-          echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
-        fi
+#     - name: 🎋 Set branch name environment variable
+#       run: |
+#         if [[ $GITHUB_REF == refs/pull/* ]]; then
+#           echo "BRANCH_NAME=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
+#         else
+#           echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+#         fi
 
-    - name: ✍️ Create Report
-      run: |
-        echo "1 2 3 ${{ env.BRANCH_NAME }}" > metric-report-${{ env.BRANCH_NAME }}.md
+#     - name: ✍️ Create Report
+#       run: |
+#         echo "1 2 3 ${{ env.BRANCH_NAME }}" > metric-report-${{ env.BRANCH_NAME }}.md
 
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
+#     - name: Configure AWS Credentials
+#       uses: aws-actions/configure-aws-credentials@v4
+#       with:
+#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         aws-region: ${{ secrets.AWS_REGION }}
 
-    - name: 📦 Upload Report to S3
-      run: |
-        aws s3 cp metric-report-${{ env.BRANCH_NAME }}.md ${{ secrets.AWS_S3_BUCKET }}/metric-report-${{ env.BRANCH_NAME }}.md
+#     - name: 📦 Upload Report to S3
+#       run: |
+#         aws s3 cp metric-report-${{ env.BRANCH_NAME }}.md ${{ secrets.AWS_S3_BUCKET }}/metric-report-${{ env.BRANCH_NAME }}.md

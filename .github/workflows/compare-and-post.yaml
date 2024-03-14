@@ -46,6 +46,7 @@ jobs:
         with:
           message: |
             Hello from A
+            Current Date and Time: $(date)
           message-id: 1
 
       - name: 💬 Post differences as comment B
@@ -53,4 +54,5 @@ jobs:
         with:
           message: |
             Hello from B
+            Current Date and Time: $(date)
           message-id: 2
