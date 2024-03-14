@@ -11,7 +11,12 @@ jobs:
       uses: actions/checkout@v4
 
     - name: 🎋 Set branch name environment variable
-      run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+      run: |
+        if [[ $GITHUB_REF == refs/pull/* ]]; then
+          echo "BRANCH_NAME=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
+        else
+          echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+        fi
 
     - name: ✍️ Create Report
       run: |

@@ -15,32 +15,45 @@ jobs:
           fetch-depth: 0
 
       - name: 🎋 Set branch name environment variable
-        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: ⬇️ Download artifact from feature branch
         run: |
-          aws s3 cp ${{ secrets.AWS_S3_BUCKET }}/metric-report-${{ env.BRANCH_NAME }}.md ${{ github.workspace }}/feature-branch-report/metric-report.md
+          if [[ $GITHUB_REF == refs/pull/* ]]; then
+            echo "BRANCH_NAME=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
+          else
+            echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+          fi
 
-      - name: ⬇️ Download Report from Dev Branch
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: ${{ secrets.AWS_REGION }}
+
+      # - name: ⬇️ Download artifact from feature branch
+      #   run: |
+      #     aws s3 cp ${{ secrets.AWS_S3_BUCKET }}/metric-report-${{ env.BRANCH_NAME }}.md ${{ github.workspace }}/feature-branch-report/metric-report.md
+
+      # - name: ⬇️ Download Report from Dev Branch
+      #   run: |
+      #     aws s3 cp ${{ secrets.AWS_S3_BUCKET }}/metric-report-${{ env.BRANCH_NAME }}.md ${{ github.workspace }}/dev-report/metric-report.md
+
+      # - name: 🔁 Compare Reports
+      #   run: |
+      #     diff -u ${{ github.workspace }}/dev-report/metric-report.md ${{ github.workspace }}/feature-branch-report/metric-report.md > diff.txt || true
+
+      - name: Get current date
         run: |
-          aws s3 cp ${{ secrets.AWS_S3_BUCKET }}/metric-report-${{ env.BRANCH_NAME }}.md ${{ github.workspace }}/dev-report/metric-report.md
+          echo "AAA $(date +'%Y-%m-%d %H:%M:%S')" >> diffA.txt
+          echo "BBB $(date +'%Y-%m-%d %H:%M:%S')" >> diffB.txt
 
-      - name: 🔁 Compare Reports
-        run: |
-          diff -u ${{ github.workspace }}/dev-report/metric-report.md ${{ github.workspace }}/feature-branch-report/metric-report.md > diff.txt || true
-
-      - name: 💬 Post differences as comment
+      - name: 💬 Post differences as comment A
         uses: mshick/add-pr-comment@v2
         with:
-          message: |
-            ## Differences in Artifacts
-            ```diff
-            $(cat diff.txt)
-            ```
+          message-path: diffA.txt
+          message-id: 1
+
+      - name: 💬 Post differences as comment B
+        uses: mshick/add-pr-comment@v2
+        with:
+          message-path: diffB.txt
+          message-id: 2
