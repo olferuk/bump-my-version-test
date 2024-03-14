@@ -51,7 +51,6 @@ jobs:
         with:
           message-path: diffA.txt
           message-id: 1
-        - name: Get current date
 
       - name: 💬 Post differences as comment B
         uses: mshick/add-pr-comment@v2
