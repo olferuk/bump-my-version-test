@@ -41,18 +41,20 @@ jobs:
       #   run: |
       #     diff -u ${{ github.workspace }}/dev-report/metric-report.md ${{ github.workspace }}/feature-branch-report/metric-report.md > diff.txt || true
 
+      - name: Get current date
+        run: |
+          echo "AAA $(date +'%Y-%m-%d %H:%M:%S')" >> diffA.txt
+          echo "BBB $(date +'%Y-%m-%d %H:%M:%S')" >> diffB.txt
+
       - name: 💬 Post differences as comment A
         uses: mshick/add-pr-comment@v2
         with:
-          message: |
-            Hello from A
-            Current Date and Time: $(date)
+          message-path: diffA.txt
           message-id: 1
+        - name: Get current date
 
       - name: 💬 Post differences as comment B
         uses: mshick/add-pr-comment@v2
         with:
-          message: |
-            Hello from B
-            Current Date and Time: $(date)
+          message-path: diffB.txt
           message-id: 2
